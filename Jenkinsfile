@@ -1,24 +1,5 @@
-pipeline {
-  agent any
 
-  environment {
-    // Name must match Manage Jenkins > Global Tool Configuration > Maven
-    MAVEN_HOME = tool 'Maven3'
-    PATH = "${MAVEN_HOME}/bin:${env.PATH}"
-  }
 
-  stages {
-    stage('Checkout') {
-      steps {
-        git branch: 'master', url: 'https://github.com/Entorkrasniqi/in_class_assignment_1', changelog: false, poll: false
-      }
-    }
-
-    stage('Build') {
-      steps {
-        sh 'mvn -B -DskipTests clean install'
-      }
-    }
 pipeline {
   agent any
 
