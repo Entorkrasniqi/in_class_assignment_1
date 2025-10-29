@@ -1,43 +1,32 @@
-package inclassAssignment1;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class codeTest {
     public static void main(String[] args) {
-
-        // choose English language
         Scanner scanner = new Scanner(System.in);
-        int choise;
-        String language = "en";
-        String country = "US";
-        int numberOfItems;
-        int totalPrice = 0;
 
-
-        // Print language
+        // Language selection
         System.out.println("Select a language:");
         System.out.println("1. English");
         System.out.println("2. Finnish");
         System.out.println("3. Swedish");
         System.out.println("4. Japanese");
-        choise = scanner.nextInt();
 
-        if (choise == 1) {
-            language = "en";
-            country = "US";
-        } else if (choise == 2) {
+        int choice = readInt(scanner, "Enter 1-4: ");
+        String language = "en";
+        String country = "US";
+
+        if (choice == 2) {
             language = "fi";
             country = "FI";
-        } else if (choise == 3) {
+        } else if (choice == 3) {
             language = "sv";
             country = "SE";
-        } else if (choise == 4) {
+        } else if (choice == 4) {
             language = "ja";
             country = "JP";
         }
-
 
         Locale locale = new Locale(language, country);
         ResourceBundle message = ResourceBundle.getBundle("messagesBundle", locale);
@@ -46,20 +35,33 @@ public class codeTest {
         String quantityMessage = message.getString("quantityMessage");
         String costMessage = message.getString("costMessage");
 
-        // Calculate the total cost of each item (price × quantity).
-        System.out.print(numberOfItemsMessage + " ");
-        numberOfItems = scanner.nextInt();
-        for (int i = 0; i < numberOfItems; i++) {
-            System.out.print(priceMessage + " ");
-            int hinta = scanner.nextInt();
-            System.out.print(quantityMessage + " ");
-            int maara = scanner.nextInt();
+        int totalPrice = 0;
 
-            totalPrice += hinta * maara;
+        System.out.println(numberOfItemsMessage + " ");
+        while (true) {
+            int price = readInt(scanner, priceMessage + " Enter -1 to exit: ");
+            if (price == -1) break;
+
+            int qty = readInt(scanner, quantityMessage + " ");
+            totalPrice += price * qty;
         }
-        System.out.print(costMessage + ": " + totalPrice);
+
+        System.out.println(costMessage + ": " + totalPrice);
         scanner.close();
+    }
 
-
+    // Simple safe int input that reprompts on invalid input
+    private static int readInt(Scanner scanner, String prompt) {
+        while (true) {
+            if (!prompt.isEmpty()) System.out.print(prompt);
+            if (scanner.hasNextInt()) {
+                int val = scanner.nextInt();
+                return val;
+            } else {
+                // consume invalid token and reprompt
+                String bad = scanner.next();
+                System.out.println("Please enter a whole number (got: " + bad + ").");
+            }
+        }
     }
 }

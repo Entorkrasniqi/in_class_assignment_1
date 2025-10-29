@@ -1,13 +1,13 @@
 pipeline {
     agent any
     tools {
-        maven 'MAVEN3'
+        maven 'Maven3'
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'maven_test', url: 'https://github.com/Entorkrasniqi/SEP01_Group6.git', changelog: false, poll: false
+                git branch: 'maven_test', url: 'https://github.com/Entorkrasniqi/in_class_assignment_1', changelog: false, poll: false
             }
         }
 
