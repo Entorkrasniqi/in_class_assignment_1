@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'maven_test', url: 'https://github.com/Entorkrasniqi/in_class_assignment_1', changelog: false, poll: false
+                git branch: 'master', url: 'https://github.com/Entorkrasniqi/in_class_assignment_1', changelog: false, poll: false
             }
         }
 
