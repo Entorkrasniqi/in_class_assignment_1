@@ -1,38 +1,23 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven3'
-    }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/Entorkrasniqi/in_class_assignment_1', changelog: false, poll: false
+                git branch: 'master', url: 'https://github.com/Entorkrasniqi/in_class_assignment_1'
             }
         }
 
-        stage('Build') {
+        stage('Build / Test') {
             steps {
-                bat 'mvn clean install'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                bat 'mvn test'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn -B clean test'
+                    } else {
+                        bat 'mvn -B clean test'
+                    }
+                }
                 junit '**/target/surefire-reports/TEST-*.xml'
-            }
-        }
-
-        stage('Coverage Report') {
-            steps {
-                bat 'mvn jacoco:report'
-            }
-        }
-
-        stage('Publish Coverage') {
-            steps {
-                jacoco()
             }
         }
     }
